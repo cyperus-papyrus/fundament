@@ -1,0 +1,858 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="ru-RU">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Сайт про фундамент | fundament.olgavr.ru </title>
+        <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="web/images/favicon.ico" />
+		<link href="web/css/style.css" rel="stylesheet" type="text/css" media="all" />
+		<link href="web/css/animate.min.css" rel="stylesheet" type="text/css" media="all" />
+		<link href="web/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+		<link rel="stylesheet" href="web/css/font-awesome.min.css">
+        <link rel="stylesheet" href="web/css/form.css">
+        <link rel="stylesheet" href="web/css/jquery.fancybox.css">
+<style type="text/css">
+.tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #9dcc7a;border-collapse: collapse;}
+.tftable th {font-size:12px;background-color:#abd28e;border-width: 1px;padding: 8px;border-style: solid;border-color: #9dcc7a;text-align:left;}
+.tftable tr {background-color:#ffffff;}
+.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #9dcc7a;}
+.tftable tr:hover {background-color:#ffff99;}
+</style>
+		<!-- web-font -->
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+		<!-- //web-font -->
+		<!-- js -->
+		<script src="web/js/jquery.min.js"></script>
+	    <script type="text/javascript" src="web/js/jquery.easing.1.3.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		<!-- //js -->
+		<!-- start-smoth-scrolling -->
+		<script type="text/javascript" src="web/js/move-top.js"></script>
+		<script type="text/javascript" src="web/js/easing.js"></script>
+        <script type="text/javascript" src="web/js/tab.js"></script>
+		<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				$(".scroll").click(function(event){		
+					event.preventDefault();
+					$('html,body').animate({scrollTop:$(this.hash).offset().top-100},1000);
+				});
+			});
+		</script>
+		<!-- grid-slider -->
+		<script type="text/javascript" src="web/js/jquery.mousewheel.js"></script>
+		<script type="text/javascript" src="web/js/jquery.contentcarousel.js"></script>
+        <script type="text/javascript" src="web/js/jquery.arcticmodal.js"></script>
+        <script type="text/javascript" src="web/js/jquery.fancybox.js"></script>
+        <script type="text/javascript" src="web/js/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function() { // вся мaгия пoслe зaгрузки стрaницы
+	$("#ajaxform").submit(function(){ // пeрeхвaтывaeм всe при сoбытии oтпрaвки
+		var form = $(this); // зaпишeм фoрму, чтoбы пoтoм нe былo прoблeм с this
+		var error = false; // прeдвaритeльнo oшибoк нeт
+		form.find('input, textarea').each( function(){ // прoбeжим пo кaждoму пoлю в фoрмe
+			if ($(this).val() == '') { // eсли нaхoдим пустoe
+				alert('Зaпoлнитe пoлe "'+$(this).attr('placeholder')+'"!'); // гoвoрим зaпoлняй!
+				error = true; // oшибкa
+			}
+		});
+		if (!error) { // eсли oшибки нeт
+			var data = form.serialize(); // пoдгoтaвливaeм дaнныe
+			$.ajax({ // инициaлизируeм ajax зaпрoс
+			   type: 'POST', // oтпрaвляeм в POST фoрмaтe, мoжнo GET
+			   url: 'cgi/goingpostal.py', // путь дo oбрaбoтчикa, у нaс oн лeжит в тoй жe пaпкe
+			   dataType: 'json', // oтвeт ждeм в json фoрмaтe
+			   data: data, // дaнныe для oтпрaвки
+		       beforeSend: function(data) { // сoбытиe дo oтпрaвки
+		            form.find('input[type="submit"]').attr('disabled', 'disabled'); // нaпримeр, oтключим кнoпку, чтoбы нe жaли пo 100 рaз
+		          },
+		       success: function(data){ // сoбытиe пoслe удaчнoгo oбрaщeния к сeрвeру и пoлучeния oтвeтa
+		       		if (data['error']) { // eсли oбрaбoтчик вeрнул oшибку
+		       			alert(data['error']); // пoкaжeм eё тeкст
+		       		} else { // eсли всe прoшлo oк
+		       			alert('Письмo oтпрaвлeнo!'); // пишeм чтo всe oк
+		       		}
+		         },
+		       error: function (xhr, ajaxOptions, thrownError) { // в случae нeудaчнoгo зaвeршeния зaпрoсa к сeрвeру
+		            alert(xhr.status); // пoкaжeм oтвeт сeрвeрa
+		            alert(thrownError); // и тeкст oшибки
+		         },
+		       complete: function(data) { // сoбытиe пoслe любoгo исхoдa
+		            form.find('input[type="submit"]').prop('disabled', false); // в любoм случae включим кнoпку oбрaтнo
+		         }
+		                  
+			     });
+		}
+		return false; // вырубaeм стaндaртную oтпрaвку фoрмы
+	});
+});
+</script>
+
+<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+			 *  Simple image gallery. Uses default settings
+			 */
+
+			$('.fancybox').fancybox();
+
+			/*
+			 *  Different effects
+			 */
+
+			// Change title type, overlay closing speed
+			$(".fancybox-effects-a").fancybox({
+				helpers: {
+					title : {
+						type : 'outside'
+					},
+					overlay : {
+						speedOut : 0
+					}
+				}
+			});
+
+			// Disable opening and closing animations, change title type
+			$(".fancybox-effects-b").fancybox({
+				openEffect  : 'none',
+				closeEffect	: 'none',
+
+				helpers : {
+					title : {
+						type : 'over'
+					}
+				}
+			});
+
+			// Set custom style, close if clicked, change title type and overlay color
+			$(".fancybox-effects-c").fancybox({
+				wrapCSS    : 'fancybox-custom',
+				closeClick : true,
+
+				openEffect : 'none',
+
+				helpers : {
+					title : {
+						type : 'inside'
+					},
+					overlay : {
+						css : {
+							'background' : 'rgba(238,238,238,0.85)'
+						}
+					}
+				}
+			});
+
+			// Remove padding, set opening and closing animations, close if clicked and disable overlay
+			$(".fancybox-effects-d").fancybox({
+				padding: 0,
+
+				openEffect : 'elastic',
+				openSpeed  : 150,
+
+				closeEffect : 'elastic',
+				closeSpeed  : 150,
+
+				closeClick : true,
+
+				helpers : {
+					overlay : null
+				}
+			});
+
+			/*
+			 *  Button helper. Disable animations, hide close button, change title type and content
+			 */
+
+			$('.fancybox-buttons').fancybox({
+				openEffect  : 'none',
+				closeEffect : 'none',
+
+				prevEffect : 'none',
+				nextEffect : 'none',
+
+				closeBtn  : false,
+
+				helpers : {
+					title : {
+						type : 'inside'
+					},
+					buttons	: {}
+				},
+
+				afterLoad : function() {
+					this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
+				}
+			});
+
+
+			/*
+			 *  Thumbnail helper. Disable animations, hide close button, arrows and slide to next gallery item if clicked
+			 */
+
+			$('.fancybox-thumbs').fancybox({
+				prevEffect : 'none',
+				nextEffect : 'none',
+
+				closeBtn  : false,
+				arrows    : false,
+				nextClick : true,
+
+				helpers : {
+					thumbs : {
+						width  : 50,
+						height : 50
+					}
+				}
+			});
+
+			/*
+			 *  Media helper. Group items, disable animations, hide arrows, enable media and button helpers.
+			*/
+			$('.fancybox-media')
+				.attr('rel', 'media-gallery')
+				.fancybox({
+					openEffect : 'none',
+					closeEffect : 'none',
+					prevEffect : 'none',
+					nextEffect : 'none',
+
+					arrows : false,
+					helpers : {
+						media : {},
+						buttons : {}
+					}
+				});
+
+			/*
+			 *  Open manually
+			 */
+
+			$("#fancybox-manual-a").click(function() {
+				$.fancybox.open('1_b.jpg');
+			});
+
+			$("#fancybox-manual-b").click(function() {
+				$.fancybox.open({
+					href : 'iframe.html',
+					type : 'iframe',
+					padding : 5
+				});
+			});
+
+			$("#fancybox-manual-c").click(function() {
+				$.fancybox.open([
+					{
+						href : '1_b.jpg',
+						title : 'My title'
+					}, {
+						href : '2_b.jpg',
+						title : '2nd title'
+					}, {
+						href : '3_b.jpg'
+					}
+				], {
+					helpers : {
+						thumbs : {
+							width: 75,
+							height: 50
+						}
+					}
+				});
+			});
+
+
+		});
+	</script>
+		<!-- //grid-slider -->
+		<!-- //end-smoth-scrolling -->
+	</head>
+	<body>
+		<!-- header -->
+		<div class="header">
+			<!-- container -->
+			<div class="container">
+				<div class="top-nav navbar-fixed-top" align="right" style="background-color: #000;">
+					<div class="head-logo">
+					<a href="#"><img src="web/images/logo.gif" alt="Logo" style="margin-left: 50px;"/></a>
+				</div>
+				<span class="menu">МЕНЮ</span>
+					<ul class="nav1">
+						<li><a href="#services" class="scroll">О НАС</a></li>
+						<li><a href="#articles" class="scroll">СТАТЬИ</a></li>
+						<li><a href="#work" class="scroll">НАШИ РАБОТЫ</a></li>
+						<li><a href="#test" class="scroll">ПРАЙС И КАЛЬКУЛЯТОР</a></li>
+						<li><a href="#contact" class="scroll">КОНТАКТЫ</a></li>
+						<!-- <li><a class="signup play-icon popup-with-zoom-anim" href="#small-dialog2">SIGN IN</a></li> -->
+					</ul>
+					<!-- script-for-menu -->
+							 <script>
+							   $( "span.menu" ).click(function() {
+								 $( "ul.nav1" ).slideToggle( 300, function() {
+								 // Animation complete.
+								  });
+								 });
+							</script>
+						<!-- /script-for-menu -->
+
+				</div>
+				<div class="clearfix"> </div>
+				<!-- requried-jsfiles-for owl -->
+				<link href="web/css/owl.carousel.css" rel="stylesheet">
+							    <script src="web/js/owl.carousel.js"></script>
+							        <script>
+							    $(document).ready(function() {
+							      $("#owl-demo").owlCarousel({
+							        items : 1,
+							        lazyLoad : true,
+							        autoPlay : true,
+							        navigation : false,
+							        navigationText :  false,
+							        pagination : true,
+							      });
+							    });
+							    </script>
+				<!-- //requried-jsfiles-for owl -->
+				<div id="owl-demo">
+					<div class="item">
+						<div class="banner-info">
+							<div><h1 style="display:inline-block;">Фундамент для вас</h1> &nbsp;&nbsp;&nbsp; <h1 style="display:inline-block;">8 (916) 577-88-74</h1></div>
+							<p style="font-size: 25px; margin-bottom: 20px; padding-bottom: 20px;"><b>Свяжитесь с нами, чтобы получить квалифицированную консультацию!</b></p>
+							<form class="form-inline" role="form" action="../cgi/hello.py">
+ 							 <div class="form-group">
+ 						   <input type="text" class="form-control" name="name" id="exampleInputName2" placeholder="Введите ваше имя">
+							    <input type="text" class="form-control" name="adress" id="exampleInputAdress2" placeholder="Адрес вызова эксперта">
+							    <input type="text" class="form-control" name="date" id="exampleInputDate2" placeholder="Предполагаемая дата">
+							  </div> <br />
+ 						   <input type="name" class="form-control" name="phone" id="exampleInputName2" placeholder="Телефон для связи">
+							    <input type="email" class="form-control" name="email" id="exampleInputAdress2" placeholder="Ваш email адрес"> <br />
+							    <textarea class="form-control" rows="3" name="proposal" placeholder="Опишите проблему" style="margin-top: 20px; padding-top: 20px; margin-bottom: 20px; padding-bottom: 20px; width: 400px;"></textarea>
+                              <br />
+                    <div class="button">
+								<ul>
+									<li><button  type="submit" class="btn btn-lg btn-primary" style="border: 0;">ОТПРАВИТЬ ЗАЯВКУ</button></li> <!--<a href='javascript://' name="sbm" onClick='submit();' type="submit">ОТПРАВИТЬ ЗАЯВКУ</a>-->
+									<li><a href="#" class="blue" onClick="$('#call-request').arcticmodal()" style="position: absolute;">ЗАКАЗАТЬ ЗВОНОК</a></li>
+									<div class="clearfix"> </div>
+								</ul>
+								<span>ИЛИ</span>
+							</div>
+							</form>
+						</div><!-- end build -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //container -->
+			<!-- pop-up-box -->
+				<script type="text/javascript" src="web/js/modernizr.custom.min.js"></script>    
+				<link href="web/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
+				<script src="web/js/jquery.magnific-popup.js" type="text/javascript"></script>
+			<!--//pop-up-box -->
+			<script>
+						$(document).ready(function() {
+						$('.popup-with-zoom-anim').magnificPopup({
+							type: 'inline',
+							fixedContentPos: false,
+							fixedBgPos: true,
+							overflowY: 'auto',
+							closeBtnInside: true,
+							preloader: false,
+							midClick: true,
+							removalDelay: 300,
+							mainClass: 'my-mfp-zoom-in'
+						});
+																						
+						});
+				</script>	
+		</div>
+		<!-- //header -->
+<div class="g-hidden">
+
+<div class="b-modal" id="call-request">
+
+<div class="b-modal_close arcticmodal-close">X</div>
+
+
+<div class="modal-form" align="center">
+
+<form id="ajaxform" method="post" name="call-form" class="call-form">
+
+<h3>Заказать бесплатный звонок!</h3>
+
+<input type="text" required="required" class="inputbox" name="name" placeholder="Ваше имя">
+<input type="text" required="required" class="inputbox" name="email" placeholder="Ваш E-mail адрес"> 
+<input type="phone" required="required" class="inputbox" name="number" placeholder="Телефон (включая код и номер)">
+
+<input type="vopros" required="required" class="inputbox" name="vopros" placeholder="Удобное время звонка (по МСК)"> 
+
+<input name=""  id="submit" type="submit" class="button" style="margin: auto;" value="Перезвоните мне"/>
+
+<p>Ваши данные останутся конфиденциальными и не будут переданы третьим лицам!</p>
+
+</form>
+
+</div>
+
+</div>
+</div>
+		<!-- content-grids -->
+		<div id="services" class="timeline-grids">
+			<!-- container -->
+			<div class="container">
+				<h3>У многих из нас есть домик за городом</h3>
+				<p>И, как правило, возраст этого дома уже солидный,  что его совсем не красит. Основное направление нашей деятельности: строительство фундаментов, замена фундаментов, а также реконструкция деревянных домов: замена сгнивших венцов, ремонт цоколя.
+Мы помогаем вернуть к жизни старые дома, а также исправляем ошибки горе-строителей новых построек.</p>
+<center><img src="web/images/foto1p-1.jpg" alt="" /></center>
+<p>Поскольку срок службы каркасных, брусовых или каменных домов может составлять до ста лет, то и фундамент должен быть не менее долговечным, ведь его качество и надежность определяет будущее состояние постройки. Наша компания занимается изготовлением только самых надежных -  железобетонных фундаментов: ленточных, свайных, столбчатых, монолитных, - винтовые мы не делаем.
+            <!-- //container -->
+		</div></div>
+		<div class="content-grids">
+			<!-- container -->
+			<div class="container"><div class="row" align="center"><h3><b>ПОЧЕМУ ВЫБИРАЮТ НАС?</b></h3><br /><br /></div>
+				<div class="col-md-3 content-grid animated" data-animated="bounceInUp">
+					<img src="web/images/butt-1.png" alt="" />
+					<h3>7-летний  опыт<br> работы</h3>
+	           <p>в области строительства и ремонта фундаментов</p>
+				</div>
+				<div class="col-md-3 content-grid animated" data-animated="bounceInUp">
+					<img src="web/images/butt-2.png" alt="" />
+					<h3>Соблюдение СНИП и ГОСТ</h3>
+                        <p>на проведение данного вида работ</p>
+				</div>
+				<div class="col-md-3 content-grid animated" data-animated="bounceInUp">
+					<img src="web/images/butt-3.png" alt="" />
+					<h3>Использование бетона</h3>
+					<p> только проверенных производителей</p>
+				</div>
+				<div class="col-md-3 content-grid animated" data-animated="bounceInUp">
+					<img src="web/images/butt-4.png" alt="" />
+					<h3>Мы изучаем новые технологии</h3>
+					<p> и успешно применяем их на практике</p>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<!-- //container -->
+		</div>
+		<!-- //content-grids -->
+        		<div id="articles" class="timeline-grids">
+			<!-- container -->
+			<div class="container">
+				<div id="gb-fubdament"><h3>ЖЕЛЕЗОБЕТОННЫЙ ФУНДАМЕНТ</h3>
+<p>Железобетонный фундамент - это основание дома, которое представляет собою бетонную конструкцию, укрепленную арматурным каркасом. Он может быть как сборным - созданным из железобетонных элементов промышленного производства (забивных железобетонных свай, фундаментных блоков), так и монолитным - сделанным посредством заливки бетоном предварительно обустроенной опалубки, внутрь которой погружен армокаркас.</p>
+<p>Подходить к выбору фундамента следует учитывая не только свойства грунтов конкретной местности, но и опыт профессионалов, ведь ошибка, заложенная в начале строительства: неверно спроектированный фундамент, экономия строительного материала, - может привести к серьезным негативным последствиям при эксплуатации дома. Такие проблемы, как перекосы фундамента, перерасход материалов, вертикальные и горизонтальные деформации, неравномерные осадки, трещины в несущих конструкциях — проще предотвратить, чем долго исправлять впоследствии.</p>
+				<p>Существует три категории железобетонных фундаментов, основные отличия между которыми заключаются в конструктивных особенностях: ленточные, плитные и свайные.</p></div><br /><br />
+
+<div id="lenta"><h3>ЛЕНТОЧНЫЙ ФУНДАМЕНТ</h3><br />
+<center><img src="web/images/lent-nevys.jpg" alt="" align="center" /></center>
+<p>Наиболее популярным видом фундамента в частном малоэтажном строительстве является ленточный. У него есть ключевое преимущество - высокие несущие характеристики при умеренном количестве необходимых стройматериалов и, как следствие, приемлемой цене. </p>
+<p>Ленточный фундамент представляет собой замкнутый контур - монолитную железобетонную ленту, расположенную под внутренними и внешними стенами дома и четко их повторяющую. Основные этапы строительства ленточного фундамента включают в себя рытье траншеи, установку опалубки, установку арматурных конструкций, заливку бетоном.</p>
+ <center><img src="web/images/photo-lent.jpg" alt="" /></center>
+<p>Ленточный фундамент может быть как мелкозаглубленным (до полуметра), так и заглубленным, соотносимым с глубиной промерзания грунта.
+Нужно обратить внимание на то, что хоть мелкозаглубленный ленточный фундамент по-прежнему удерживает лидерство по популярности, выбор в пользу него нужно должен быть обязательно согласован со специалистом.</p></div>
+<br /><br />
+
+<div id="plita"><h3>ПЛИТНЫЙ ФУНДАМЕНТ</h3><br />
+  <center><img src="web/images/plita-splosh.jpg" alt="" align="center" /></center>
+
+				<p>Плитный фундамент -  надежный и универсальный фундамент как для малоэтажного строительства, так и для более сложных объектов. Такой фундамент можно применять практически на любых грунтовых основаниях: плита равномерно распределяет вес строения по всей площади.</p>
+<center><img src="web/images/photo-plita.jpg" alt="" align="center" /></center>
+<p>Существует несколько вариаций изготовления плит: плита на сваях, плита на ленте, «перевёрнутая чаша» и другие разновидности. Это долговечная и надежная конструкция, устройство такого типа фундамента технологически не отличается от устройства монолитного ленточного фундамента. Однако укладка бетонной смеси требует более высокого внимания и профессионального опыта. </p>
+<p>Из немногочисленных недостатков такого фундамента можно назвать более высокую стоимость, по-сравнению с другими видами фундаментов, что ограничивает область его применения.</p></div>
+
+<div id="stolb"><h3>СТОЛБЧАТЫЙ ФУНДАМЕНТ</h3><br />
+<center><img src="web/images/imgpsh_fullsize.jpg" alt="" align="center" /></center>
+<p>Столбчатый фундамент – наиболее экономичный тип фундамента. Однако, его надежность зависит от основания, поэтому рекомендовано использовать столбчатый фундамент только на подготовленных уплотненных песчаных подушках. В классическом варианте такой фундамент выполняется из полнотелых фундаментных блоков или из железобетонных столбиков, которые располагаются в местах пересечения стен, по углам будущего здания, под несущими тяжелыми балками, венцами сруба, простенками, - то есть там, где сосредоточена наибольшая нагрузка.</p> <p>Соединяются с конструкцией дома они через рандбалки и крепления на анкеры.</p>
+<center><img src="web/images/imgpsh_fullsize (1).jpg" alt="" align="center" /></center>
+<p>Основным преимуществом столбчатого фундамента является его экономичность. Очень часто такой вид фундамента используют при возведении домов из дерева — как классических дачных, так и домов для круглогодичного проживания, а также под бани и небольшие дачные постройки.</p> </div>
+<br /><br />
+
+<div id="venec"><h3>ЗАМЕНА СГНИВШИХ ВЕНЦОВ ДЕРЕВЯННОГО ДОМА</h3>
+<p>Деревянный сруб как теплое и экологичное жилье пережил в последнее время рост популярности. Но этот вид строений, при всей надежности конструкции и хорошем уходе, однажды потребует ремонта, а слабым местом в любом срубе являются именно нижние венцы, особенно - закладной. Помимо того, что они подвержены намоканию от талых и дождевых вод, брёвна могут пострадать из-за недостаточной защищённости и неправильной гидроизоляции фундамента. </p>
+ <center><img src="web/images/photo-sgnivsh-venetz.jpg" alt="" align="center" /></center>
+<p>В итоге некоторым владельцам срубов уже через 5-6 лет приходится сталкиваться с проблемой гниения нижних венцов. Способом решения этой проблемы является их замена: это достаточно сложная операция, требующая строгого соблюдения технологии. Производить замену венцов стоит только с приглашением специалистов или хотя бы при их присмотре: ведь ошибки в ходе работ могут привести к разрушению всего дома, его кровли, перекрытий или дымоходов. </p>
+ <center><img src="web/images/new-venetz.jpg" alt="" align="center" /></center>
+<p>Перед началом проведения работ стоит понимать, что технология ремонта деревянного дома зависит от множества условий: размера дома, технического состояние фундамента и самих венцов, наличия достаточного свободного места возле строения и множества других факторов.</p>
+ <center><img src="web/images/new-venetz2.jpg" alt="" align="center" /></center></div> <br /><br />
+</div> 
+</div>
+			<!-- //container -->
+		</div>
+		<!-- timeline-grids -->
+		<div id="how" class="timeline-grids">
+			<!-- container -->
+			<div class="container">
+				<h3>Преимущества работы с нами</h3>
+<br /><br />
+				<div class="timeline-grid">
+					<div class="timeline-bar">
+						<span class="s-point"> </span>
+						<label class="line"> </label>
+						<span class="e-point"> </span>
+					</div>
+					<div class="line-grid-info right-blue">
+						<h4>Соблюдение ГОСТ и СНИП</h4>
+						<p>позволяет нам гарантировать высокое качество проектов, работ и и используемых материалов.</p>
+						<span class="b-dot"> </span>
+						<span class="l-arrow"> </span>
+					</div>
+					<div class="line-grid-info left-red">
+						<h4>Неправильное проектирование</h4>
+						<p>и строительство фундамента чревато отрицательными последствиями, самое страшное из которых - полное разрушение построенного дома.</p>
+						<span class="r-dot"> </span>
+						<span class="r-arrow"> </span>
+					</div>
+                    <div class="line-grid-info right-blue1">
+						<h4>Накопленный опыт позволяет нам</h4>
+						<p>определять окончательную стоимость работ до их начала и предлагать вам конкурентные цены.</p>
+						<span class="b-dot"> </span>
+						<span class="l-arrow"> </span>
+					</div>
+					<div class="line-grid-info left-red1">
+						<h4>Превышение сметы строительных работ </h4>
+						<p>является распространенной ошибкой начинающих или недобросовестных строительных компаний.</p>
+						<span class="r-dot"> </span>
+						<span class="r-arrow"> </span>
+					</div>
+                    <div class="line-grid-info right-blue2">
+						<h4>Гарантия на проводимые работы</h4>
+						<p>является неоспоримым преимуществом, в особенности в условиях ограниченных материальных возможностей многих заказчиков.</p>
+						<span class="b-dot"> </span>
+						<span class="l-arrow"> </span>
+					</div>
+					<div class="line-grid-info left-red2">
+						<h4>Отсутствие гарантии</h4>
+						<p>на произведенные строительные работы опасно тем, что сроки обнаружения ненадлежащего качества могут выходить за сроки приема работ.</p>
+						<span class="r-dot"> </span>
+						<span class="r-arrow"> </span>
+					</div>
+				</div>
+			</div>
+			<!-- //container -->
+		</div>
+		<!-- //timeline-grids -->
+		<!-- work -->
+		<div id="work" class="work">
+			<!-- container -->
+			<div class="container wrap">
+				<h3>НАШИ РАБОТЫ</h3>
+				<p>Подготовка основания, сооружение фундаментов — процесс дорогой и составляет, как правило, треть стоимости всей постройки. Лучше заказать проект опытным профессионалам, которые грамотно и обоснованно подберут вам тип и материал фундамента и грамотно проведут все строительные работы.</p>
+						<script>
+									$(document).ready(function() {
+									  $("#owl-demo1").owlCarousel({
+										items : 2,
+										lazyLoad : true,
+										autoPlay : true,
+										navigation : true,
+										navigationText :  true,
+										pagination : false,
+									  });
+									});
+									</script>
+				<!-- //requried-jsfiles-for owl -->
+				<!-- start content_slider -->
+				<div id="owl-demo1" class="owl-carousel">
+					<div class="item">
+						<div class="work-grids">
+								<div class="work-grid"> 
+                                    <a class="fancybox" rel="gallery1" href="web/images/itog-1.jpg" title="сооружение ленточного железобетонного фундамента">
+	<img src="web/images/itog-1_sm.jpg" alt="сооружение ленточного железобетонного фундамента" /></a>
+								</div>
+								<div class="work-grid">
+                                    <a class="fancybox" rel="gallery1" href="web/images/itog-2.jpg" title="сооружение монолитного фундамента под гараж">
+	<img src="web/images/itog-2_sm.jpg" alt="сооружение монолитного фундамента под гараж"/></a>
+								</div>
+								<div class="clearfix"> </div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="work-grids">
+								<div class="work-grid">
+                                    <a class="fancybox" rel="gallery1" href="web/images/itog-3.jpg" title="сооружение ленточного фундамента на сваях">
+	<img src="web/images/itog-3_sm.jpg" alt="сооружение ленточного фундамента на сваях" /></a>
+								</div>
+                                								<div class="work-grid">
+                                    <a class="fancybox" rel="gallery1" href="web/images/itog-8.jpg" title="замена нижних венцов сруба">
+	<img src="web/images/itog-8_sm.jpg" alt="замена нижних венцов сруба" /></a>
+								</div>
+								<div class="clearfix"> </div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="work-grids">
+								<div class="work-grid">
+                                    <a class="fancybox" rel="gallery1" href="web/images/itog-5.jpg" title="замена фундамента деревянного дома">
+	<img src="web/images/itog-5_sm.jpg" alt="замена фундамента деревянного дома" /></a>
+								</div>
+								<div class="work-grid">
+                                    <a class="fancybox" rel="gallery1" href="web/images/itog-6.jpg" title="процесс замены фундамента деревянного дома">
+	<img src="web/images/itog-6_sm.jpg" alt="процесс замены фундамента деревянного дома" /></a>
+								</div>
+								<div class="clearfix"> </div>
+						</div>
+					</div>
+				</div>	
+			</div>
+			<!-- //container -->
+		</div>
+		<!-- //work -->
+		<!-- test -->
+		<div id="test" class="test">
+		<!-- container -->
+		<div class="container">
+			<h3>ПРАЙС-ЛИСТ И КАЛЬКУЛЯТОР</h3><br />
+			<div>
+<table class="tftable" border="1">
+<tr><th>Тип работ</th><th>Вид работ</th><th>Расчетные параметры</th><th>Единицы измерения</th><th>Стоимость</th></tr>
+<tr><td rowspan="3">строительство фунамента </td><td>Монолитный железо бетонный ростверк на буронабивных сваях с расширенной пятой  </td><td>высота цоколя 50см., ширина ленты 25см., глубина закладки опор 1,5м </td><td>метр погонный </td><td>4500 </td></tr>
+<tr><td>Ленточный мелкозаглубленный </td><td>высота цоколя 60см., ширина ленты 30см. </td><td>метр погонный </td><td>4500 </td></tr>
+<tr><td>Столбчато-ленточный </td><td>высота цоколя 60см., ширина ленты 30см. </td><td>метр погонный </td><td>5500 </td></tr>
+<tr><td rowspan="3">замена фундамента </td><td>свайнобалочный </td><td>диаметр свай 25см и уширением 52см, с глубиной закладки 1,8м от поверхности грунта </td><td>метр погонный </td><td>6000 </td></tr>
+<tr><td> мелкозаглубленный </td><td>высота цоколя 60см., ширина ленты 30см. </td><td>метр погонный </td><td>6000 </td></tr>
+<tr><td>столбчатоленточный </td><td>высоте цоколя 600мм, ширине ленты 300мм, глубине закладки анкерных опор 1,5м, сечением 300х300мм с уширением 600х600мм. </td><td>метр погонный </td><td>7000 </td></tr>
+<tr><td rowspan="6">реконструкция домов </td><td>замена венца </td><td> </td><td>метр погонный </td><td>3000 </td></tr>
+<tr><td>подъем дома, либо части дома </td><td>при длине стен до 10 м </td><td>сантиметр </td><td>1000 </td></tr>
+<tr><td>ремонт цоколя </td><td> </td><td>метр погонный </td><td>3000 </td></tr>
+<tr><td>демонтаж старого фундамента из кирпча </td><td>измеряется по факту </td><td>м3</td><td>2000 </td></tr>
+<tr><td>демонтаж старого фундамента из бетона </td><td>измеряется по факту </td><td>м3</td><td>4000 </td></tr>
+<tr><td>вызов специалиста для составления сметы </td><td colspan="2">входит в стоимость работ</td><td>2000 </td></tr>
+</table>
+
+<br /><br />
+
+<h3>Калькулятор примерной стоимости</h3>
+<div class="bs-example bs-example-tabs" style="width: 56%; background: #B2E28E; margin: auto; margin-top: 20px; border-radius: 10px;  padding-bottom: 10px;">
+    <ul id="myTab" class="nav nav-tabs">
+      <li class="active"><a href="#home" data-toggle="tab">строительство фунамента</a></li>
+      <li><a href="#profile" data-toggle="tab">замена фундамента</a></li>
+      <li><a href="#last"  data-toggle="tab">реконструкция домов</b></a>
+        </li>
+    </ul>
+    <div id="myTabContent" class="tab-content" style="padding-left: 5px;">
+      <div class="tab-pane fade in active" id="home">
+        <b>Выберите тип фундамента:</b><br/>
+        <select class="form-control" onchange="calc()" id="type_design" data-style="btn-danger">
+            <option value="4500">Монолитный железобетонный ростверк на буронабивных сваях с расширенной пятой</option>
+            <option value="4500">Ленточный мелкозаглубленный</option>
+            <option value="5500">Столбчато-ленточный</option>
+        </select><br/><br />
+        <!--<input type="checkbox" onchange="calc()" value="3000" id="is_html" />
+        <label for="is_html">Требуется верстка?</label>
+        <br/>--><form>
+        <input type="text" id="count" value="0" onchange="calc()" style="width: 100px; color: #000; background: #fff;" /> погонных метров.
+        <input class="btn btn-danger" type="button" value="Рассчитать!" onclick="calc()"> <input class="btn btn-warning" type="reset" value="Очистить" /></form>
+
+        <div>Приблизительная стоимость: <span id="result">0</span> руб.</div>
+        <script type="text/javascript">
+        function calc() {
+            //получаем ссылку на элемент Select (Тип дизайна)
+            var type_design = document.getElementById("type_design");
+            //получаем ссылку на чекбокс (Требуется верстка?)
+            var is_html = document.getElementById("is_html");
+            //получаем ссылку на элемент input (Кол-во вариантов)
+            var count = document.getElementById("count");
+            //получаем ссылку на элемент span, в него будем писать стоимость дизайна
+            var result = document.getElementById("result"); 
+ 
+            var price = 0;
+            var is_html = 0;
+            price += parseInt(type_design.options[type_design.selectedIndex].value);
+            price += (is_html.checked == true) ? parseInt(is_html.value) : 0;
+            price = parseInt(count.value) * price;
+ 
+            result.innerHTML = price;
+        }
+ 
+</script>
+      </div>
+      <div class="tab-pane fade" id="profile">
+        <b>Выберите тип фундамента:</b><br/>
+        <select class="form-control" onchange="refresh_f()" id="type_refresh">
+            <option value="6000">Cвайнобалочный</option>
+            <option value="6000">Vелкозаглубленный</option>
+            <option value="7000">Cтолбчато-ленточный</option>
+        </select><br/><br/> 
+        <form><input type="text" id="count_2" value="0" onchange="refresh_f()" style="width: 100px; color: #000; background: #fff;" /> погонных метров.
+        <input class="btn btn-danger" type="button" value="Рассчитать!" onclick="refresh_f()"> <input class="btn btn-warning" type="reset" value="Очистить" /></form>
+        <div>Приблизительная стоимость: <span id="result2">0</span> руб.</div>
+        <script type="text/javascript">
+        function refresh_f() {
+            var type_refresh = document.getElementById("type_refresh");
+            var count_2 = document.getElementById("count_2");
+            var result2 = document.getElementById("result2"); 
+ 
+            var price = 0;
+            price += parseInt(type_refresh.options[type_refresh.selectedIndex].value);
+            price = parseInt(count_2.value) * price;
+ 
+            result2.innerHTML = price;
+        }
+ 
+</script>
+      </div>
+      <div class="tab-pane fade" id="last">
+        <script type="text/javascript">
+ function checkbox_calc() {
+    var rez = 0; with (document)
+    {
+        if (getElementById ('venec').checked) rez += parseFloat (getElementById ('venec').value) * parseInt(count1.value);
+        if (getElementById ('podem').checked) rez += parseFloat (getElementById ('podem').value) * parseInt(count2.value);
+        if (getElementById ('cokol').checked) rez += parseFloat (getElementById ('cokol').value) * parseInt(count3.value);
+        if (getElementById ('kirpich').checked) rez += parseFloat (getElementById ('kirpich').value) * parseInt(count4.value);
+        if (getElementById ('beton').checked) rez += parseFloat (getElementById ('beton').value) * parseInt(count5.value);
+        getElementById ('result3').innerHTML = rez;
+}
+}
+</script><form>
+        <input type="checkbox" onchange="checkbox_calc()" value="3000" id="venec" />
+        <label for="venec">замена венца</label>
+        <input type="text" id="count1" value="1" onchange="checkbox_calc()" style="width: 100px; color: #000; background: #fff;" /> погонных метров.<br />
+        <input type="checkbox" onchange="checkbox_calc()" value="1000" id="podem" />
+        <label for="podem">подъем дома, либо части дома</label>
+        <input type="text" id="count2" value="1" onchange="checkbox_calc()" style="width: 100px; color: #000; background: #fff;" /> сантиметров.<br />
+        <input type="checkbox" onchange="checkbox_calc()" value="3000" id="cokol" />
+        <label for="cokol">ремонт цоколя</label>
+        <input type="text" id="count3" value="1" onchange="checkbox_calc()" style="width: 100px; color: #000; background: #fff;" /> погонных метров.<br />
+        <input type="checkbox" onchange="checkbox_calc()" value="3000" id="kirpich" />
+        <label for="kirpich">демонтаж старого фундамента из кирпча</label>
+        <input type="text" id="count4" value="1" onchange="checkbox_calc()" style="width: 100px; color: #000; background: #fff;" /> кубических метров.<br />
+        <input type="checkbox" onchange="checkbox_calc()" value="4000" id="beton" />
+        <label for="beton">демонтаж старого фундамента из бетона</label>
+        <input type="text" id="count5" value="1" onchange="checkbox_calc()" style="width: 100px; color: #000; background: #fff;" /> кубичесих метров.<br />
+        
+
+        <input class="btn btn-danger" type="button" value="Рассчитать!" onclick="checkbox_calc()"> <input class="btn btn-warning" type="reset" value="Очистить" /></form>
+        <div>Приблизительная стоимость: <span id="result3">0</span> руб.</div>
+      </div>
+    </div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+		<!-- //container -->
+		</div>
+		<!-- //test -->
+		<!-- test2 -->
+		<div id="test2" class="test">
+		<!-- container -->
+		<!-- <div class="content-grids">
+			<h3>Почему Вы можете доверять нам?</h3><br />
+			<div class="row">
+        	<div class="col-md-6"><div class="media">
+    			<img class="pull-left" src="web/images/green-tick.png" alt="..." width="50px">
+  				<div class="media-body">
+   					<h4 class="media-heading">7-летний опыт работы</h4>
+  				</div>
+			</div>
+			</div>
+        	<div class="col-md-6"><div class="media">
+    			<img class="pull-left" src="web/images/green-tick.png" alt="..." width="50px">
+  				<div class="media-body">
+    				<h4 class="media-heading">соблюдение СНИП и ГОСТ</h4>
+    				на проведение данного вида работ
+  				</div>
+			</div>
+			</div>
+      		</div>
+      		<div class="row">
+        	<div class="col-md-6"><div class="media">
+    			<img class="pull-left" src="web/images/green-tick.png" alt="..." width="50px">
+  				<div class="media-body">
+    				<h4 class="media-heading">использование бетона</h4>
+    				только проверенных производителей
+  				</div>
+			</div>
+			</div>
+        	<div class="col-md-6"><div class="media">
+    			<img class="pull-left" src="web/images/green-tick.png" alt="..." width="50px">
+  				<div class="media-body">
+   					<h4 class="media-heading">мы изучаем</h4>
+    				новые технологии и успешно применяем их на практике
+  				</div>
+			</div>
+			</div>
+      		</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>-->
+		<!-- //container -->
+		</div>
+		<!-- //test2 --> 
+		<!-- test3 -->
+		<div id="test3" class="test3">
+		<!-- container -->
+		<div class="content-grids">
+			<div align="center"><h3>У вас остались вопросы? Мы готовы на них ответить!<br /><br />
+			Позвоните нам по телефону: <br />
+
+			8 (916) 577-88-74</h3>
+
+			<p style="font-size: 28px;">Или свяжитесь с нами по электронной почте:<br />
+
+			fundament.mos@gmail.com<br />
+или</p></h2>
+<button class="btn btn-primary btn-lg" onClick="$('#call-request').arcticmodal()">ЗАКАЖИТЕ ЗВОНОК</a> </div>
+		</div>
+		<!-- //container -->
+		</div>
+		<!-- //test3 -->
+		<!-- footer -->
+		<div id="contact" class="footer">
+			<!-- container -->
+			<div class="container">
+				<div class="f-left">
+					<div class="f-left-left">
+						<ul>
+							<li class="value">Связаться с нами:</a></li>
+							<li><span class="text-muted"> <i class="fa fa-envelope-o" aria-hidden="true"></i></i> fundament.mos@gmail.com </span></li>
+							<li><span class="text-muted"><i class="fa fa-phone" aria-hidden="true"></i></i> 8 (916) 577-88-74 </span></li>
+						</ul>
+					</div>	
+					<div class="f-left-left">
+						<ul>
+							<li class="value">Наши статьи</a></li>
+							<li><a href="#gb-fubdament" class="scroll">Железобетонный фундамент</a></li>
+							<li><a href="#lenta" class="scroll">Ленточный фундамент</a></li>
+							<li><a href="#plita" class="scroll">Плитный фундамент</a></li>
+                            <li><a href="#stolb" class="scroll">Столбчатый фундамент</a></li>
+                            <li><a href="#venec" class="scroll">Замена венцов</a></li>
+						</ul>
+					</div>	
+				</div>
+				<div class="f-right">
+					<h4>Нужна консультация? Напишите нам!</h4>
+					<form class="form-horisontal" role="form"
+						<input type="text" placeholder="Ваше имя" required="">
+						<input type="text" placeholder="email для связи" required="">
+						<input type="text" placeholder="Опишите свою проблему" required="">
+						<input type="submit" value="ОТПРАВИТЬ">
+					</form>
+					<p>Template by <a href="http://w3layouts.com/">W3layouts</a></p>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<!-- //container -->
+		</div>
+		<!-- //footer -->
+		<script type="text/javascript">
+									$(document).ready(function() {
+										/*
+										var defaults = {
+								  			containerID: 'toTop', // fading element id
+											containerHoverID: 'toTopHover', // fading element hover id
+											scrollSpeed: 1200,
+											easingType: 'linear' 
+								 		};
+										*/
+										
+										$().UItoTop({ easingType: 'easeOutQuart' });
+										
+									});
+								</script>
+									<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+	<!-- content-Get-in-touch -->
+	</body>
+</html>

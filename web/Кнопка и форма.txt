@@ -1,0 +1,41 @@
+﻿<!-- кнопка -->
+
+<button class="button" onClick="$('#call-request').arcticmodal()"><span>Заказать звонок</span></button>
+<!-- //кнопка -->
+
+
+<!-- форма -->
+
+
+
+<div class="g-hidden">
+
+<div class="b-modal" id="call-request">
+
+<div class="b-modal_close arcticmodal-close">X</div>
+
+
+<div class="modal-form" align="center">
+
+<form action="options.php" method="post" name="call-form" class="call-form">
+
+<h3>Заказать бесплатный звонок!</h3>
+
+<input type="text" required="required" class="inputbox" name="name" placeholder="Ваше имя">
+<input type="text" required="required" class="inputbox" name="email" placeholder="Ваш E-mail адрес"> 
+<input type="phone" required="required" class="inputbox phone-box" name="number" placeholder="Телефон (включая код и номер)">
+
+<input type="vopros" required="required" class="inputbox" name="vopros" placeholder="Удобное время звонка (по МСК)"> 
+
+<input name=""  id="submit" type="submit" class="button" value="Перезвоните мне"/>
+
+<p>Ваши данные останутся конфиденциальными и не будут переданы третьим лицам!</p>
+
+</form>
+
+</div>
+
+</div>
+</div>
+
+<!-- // форма -->
